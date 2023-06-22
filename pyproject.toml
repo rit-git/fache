@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "fache"
+version = "0.1.0"
+description = "Fact checker for dialog generation"
+authors = ["Chunpeng Ma <ma.chunpeng@megagon.ai>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
