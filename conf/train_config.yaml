@@ -1,0 +1,21 @@
+run:
+  task: rte
+
+data:
+  dir: /home/01052711/fache/data/ebe-dataset/evidence_identification_dataset
+  max_len: 128
+
+model:
+  arch: cl-tohoku/bert-base-japanese
+  dir: /home/01052711/fache/results/${run.task}/${model.arch}
+  classifier_hidden_size: 300
+
+train:
+  epochs: 10
+  batch_size: 16
+  n_workers: 1
+
+hydra:
+  run:
+    dir: /tmp/hydra/${now:%Y-%m-%d}/${now:%H-%M-%S}/outputs
+  output_subdir: /tmp/hydra/${now:%Y-%m-%d}/${now:%H-%M-%S}
