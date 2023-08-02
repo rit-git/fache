@@ -1,4 +1,4 @@
-import csv
+import json
 import os
 
 from transformers import PreTrainedTokenizer
@@ -14,16 +14,16 @@ class FacheData(FacheDataBase):
         
         assert os.path.isdir(data_dir), f'Inexistent data location: {data_dir}'
         
-        data_path = os.path.join(data_dir, f'{split}.tsv')
-        assert os.path.exists(data_path), f'Cannot find {split}.tsv'
+        data_path = os.path.join(data_dir, f'{split}.json')
+        assert os.path.exists(data_path), f'Cannot find {split}.json'
 
         with open(data_path) as f:
-            reader = csv.DictReader(f, delimiter='\t')
-            for row in reader:
+            data = json.load(f)
+            for row in data.values():
                 self.data.append({
                     'sentence_pair': (
-                        row['title_wakati'],
-                        row['sent_wakati']
+                        row['title'],
+                        ' '.join(row['sent'])
                     ),
                     'label': int(row['target'])
                 })

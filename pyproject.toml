@@ -10,11 +10,15 @@ python = "^3.10"
 hydra-core = "^1.3.2"
 fugashi = "^1.2.1"
 ipadic = "^1.0.0"
-transformers = "^4.30.2"
+transformers = "4.21.0"
 pytorch-lightning = "1.9.0"
 scikit-learn = "^1.3.0"
 torch = "1.12.1"
 loguru = "^0.7.0"
+uvicorn = "^0.23.1"
+fastapi = "^0.100.1"
+ginza = "^5.1.2"
+ja-ginza-electra = "^5.1.2"
 
 
 [build-system]

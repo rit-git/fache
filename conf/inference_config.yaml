@@ -10,10 +10,12 @@ model:
   dir: /home/01052711/fache/results/${run.task}/${model.arch}
   classifier_hidden_size: 300
 
-train:
-  epochs: 10
+inference:
   batch_size: 16
   n_workers: 1
+
+server:
+  port: 12345
 
 hydra:
   run:
