@@ -9,7 +9,7 @@ def main(cfg: DictConfig):
     app = FacheAPI(cfg)
     uvicorn.run(
         app,
-        host='0.0.0.0',
+        host='127.0.0.1',
         port=cfg.server.port if 'server' in cfg else 12345,
         root_path='/app/fache'
     )
