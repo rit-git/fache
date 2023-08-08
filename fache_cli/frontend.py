@@ -23,7 +23,7 @@ def fact_check(port):
                 '【{}。事実確率：{:.4f}】{} '.format(
                     '事実' if item['label'] else 'ウソ', 
                     item['score'] if item['label'] else 1.0 - item['score'], 
-                    item['sent']
+                    item['sent'].strip()
                 )
             )
         st.session_state['result'] = '\n'.join(result)
