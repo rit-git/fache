@@ -2,12 +2,12 @@ run:
   task: jalan
 
 data:
-  dir: /Users/01052711/Desktop/Playground/fache/data/ebe-dataset/evidence_identification_dataset4jalan
+  dir: /home/01052711/fache/data/ebe-dataset/evidence_identification_dataset4jalan
   max_len: 128
 
 model:
   arch: cl-tohoku/bert-base-japanese
-  dir: /Users/01052711/Desktop/Playground/fache/results/${run.task}/${model.arch}
+  dir: /home/01052711/fache/results/${run.task}/${model.arch}
   classifier_hidden_size: 300
 
 inference:
@@ -15,7 +15,7 @@ inference:
   n_workers: 1
 
 server:
-  port: 12345
+  port: 12344
 
 hydra:
   run:
