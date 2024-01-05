@@ -5,28 +5,41 @@ import streamlit as st
 import requests
 
 CLAIM = '明るく清潔感最高！東京駅の近くにあって良い。'
-EVIDENCE = 'お部屋は壁紙などもオシャレで明るく、清潔感もあり、潔癖症の自分でも快適に過ごせました！ハウステンボスから疲れて帰って、足は痛くなってましたが、大浴場で体も軽くなりぐっすり眠ることができました＾＿＾朝食も品数が多くついつい食べ過ぎてしまいました。美味しかったです。冬のハウステンボスも素敵ですが、次回は春のチューリップまつりのハウステンボスに行きたいですね。ありがとうございました＾＿＾'
+EVIDENCE = 'お部屋は壁紙などもオシャレで明るく、清潔感もあり、潔癖症の自分でも快適に過ごせました！ハウステンボスから疲れて帰って、足は痛くなってましたが、大浴場で体も軽くなりぐっすり眠ることができました＾＿＾朝食も品数が多くついつい食べ過ぎてしまいました。美味しかったです。冬のハウステンボスも素敵ですが、次回は春のチューリップまつりのハウステンボスに行きたいですね。ありがとうございました＾＿＾\ngs://cet-prd-dataset-images/jln/Y316832AU1/2023/05/10/Y316832AU1.jpg'
 
 def fact_check(port):
-    response = requests.post(
-        f'http://localhost:{port}/api/predict',
-        json={
-            'claim': st.session_state['claim'],
-            'para': st.session_state['evidence']
-        }
-    )
-    if response.status_code == 200:
-        response = response.json()
-        result = []
-        for item in response:
-            result.append(
-                '【{}。事実確率：{:.4f}】{} '.format(
-                    '事実' if item['label'] else 'ウソ', 
-                    item['score'] if item['label'] else 1.0 - item['score'], 
-                    item['sent'].strip()
+    if True: # st.session_state['mode'] == 'テキスト':
+        response = requests.post(
+            f'http://localhost:{port}/api/predict',
+            json={
+                'claim': st.session_state['claim'],
+                'para': st.session_state['evidence'],
+            }
+        )
+        if response.status_code == 200:
+            response = response.json()
+            result = []
+            for item in response:
+                result.append(
+                    '【{}。事実確率：{:.4f}】{} '.format(
+                        '事実' if item['label'] else 'ウソ', 
+                        item['score'] if item['label'] else 1.0 - item['score'], 
+                        item['sent'].strip()
+                    )
                 )
-            )
-        st.session_state['result'] = '\n'.join(result)
+            st.session_state['result'] = '\n'.join(result)
+    else:
+        response = requests.post(
+            f'http://localhost:{port}/api/image',
+            json={
+                'claim': st.session_state['claim'],
+                'para': st.session_state['evidence'],
+            }
+        )
+        if response.status_code == 200:
+            response = response.json()
+            result = []
+            st.session_state['result'] = '\n'.join(result)
 
 def update_textarea(key):
     st.session_state[key] = st.session_state[key]
@@ -49,12 +62,17 @@ def main(cfg: DictConfig):
         st.session_state['result'] = ''
 
     st.text_area(
-        '証拠となる文章をこちらに入力してください。',
+        '証拠となる文章もしくは画像のURLをこちらに入力してください。',
         key='evidence',
         height=200,
         on_change=update_textarea,
         kwargs={'key': 'evidence'}
     )
+    # st.selectbox(
+    #     '判定モード',
+    #     ('テキスト', '画像'),
+    #     key='mode', on_change=update_textarea, args=('mode',)
+    # )
     st.text_area(
         '判定対象とする文章をこちらに入力してください。',
         key='claim',

@@ -10,6 +10,7 @@ from transformers import AutoTokenizer
 from importlib import import_module
 
 from fache.model import FacheModel
+# from fache.image import init_blip, init_sam
 
 class FacheRequest(BaseModel):
     claim: str
@@ -48,6 +49,9 @@ class FacheAPI(FastAPI):
         self.nlp = spacy.load('ja_ginza_electra')
 
         self.post("/api/predict")(self.predict)
+
+        # self.sam_generator = init_sam(cfg.image.sam)
+        # self.blip_model, self.blip_processor = init_blip(cfg.image.blip)
     
     def predict(self, req: FacheRequest) -> List[Dict[str, Any]]:
         embed2 = self.tokenizer(
@@ -93,3 +97,6 @@ class FacheAPI(FastAPI):
             })
 
         return output
+    
+    def image(self, req: FacheRequest) -> List[Dict[str, Any]]:
+        pass

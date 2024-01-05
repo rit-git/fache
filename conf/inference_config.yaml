@@ -10,6 +10,10 @@ model:
   dir: /home/01052711/fache/results/${run.task}/${model.arch}
   classifier_hidden_size: 300
 
+image:
+  blip: blip2-flan-t5-xl
+  sam: /home/01052711/fache/segment-anything/checkpoints/sam_vit_h_4b8939.pth
+
 inference:
   batch_size: 16
   n_workers: 1

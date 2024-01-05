@@ -7,6 +7,7 @@ import torch
 import matplotlib.pyplot as plt
 import numpy as np
 import tqdm
+import torch
 
 from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
 from transformers import AutoProcessor, Blip2ForConditionalGeneration
@@ -19,7 +20,8 @@ def read_image(img_path):
 
 def init_sam(sam_path):
     sam = sam_model_registry["vit_h"](checkpoint=sam_path)
-    sam.to('cuda:0')
+    if torch.cuda.is_available():
+        sam.to('cuda:0')
     mask_generator = SamAutomaticMaskGenerator(
         model = sam,
         # crop_n_layers=1
@@ -30,7 +32,8 @@ def init_blip(blip_model_name):
     dl_model_p = f'Salesforce/{blip_model_name}'
     processor = AutoProcessor.from_pretrained(dl_model_p)
     model = Blip2ForConditionalGeneration.from_pretrained(dl_model_p, torch_dtype=torch.float16)
-    model.to('cuda:1')
+    if torch.cuda.is_available():
+        model.to('cuda:1')
     return model, processor
 
 def generate_mask(mask_generator, img):

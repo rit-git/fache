@@ -20,6 +20,9 @@ fastapi = "^0.100.1"
 ginza = "^5.1.2"
 ja-ginza-electra = "^5.1.2"
 streamlit = "^1.25.0"
+opencv-python = "^4.9.0.80"
+matplotlib = "^3.8.2"
+segment-anything = {git = "https://github.com/facebookresearch/segment-anything.git"}
 
 
 [build-system]
